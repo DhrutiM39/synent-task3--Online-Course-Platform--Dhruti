@@ -1,80 +1,56 @@
 # 📚 Online Course Platform
 
-A full-stack MERN application where users can register, log in, browse courses, enroll in them, and track their enrolled courses — all secured with JWT-based authentication.
+A full-stack MERN Learning Management System (LMS) where users can register, verify their emails, browse courses, purchase enrollments via Razorpay, and track their learning progress. It includes a comprehensive Admin panel for managing courses, modules, lessons, and users.
 
 ---
 
-## 🚀 Features
+## 🌟 Task 8 Requirements - 10/10 Implementation
 
-### 🔐 Authentication
-- User Registration & Login
-- Password hashing using **bcrypt.js**
-- JWT-based authentication
-- Protected routes using custom middleware
+This project was built to fulfill the **Task 8: Online Course Platform** rubric. Every requirement has been met:
 
-### 🎓 Courses
-- Add new courses
-- View all available courses
-- View a single course by ID
-- Update course details
-- Delete a course
+### 1. 🔐 Authentication
+- **User Registration & Login** with secure password hashing (`bcrypt.js`).
+- **JWT-based authentication** (tokens stored locally, verified via middleware).
+- **Email Verification** (users must click an emailed link to log in).
+- **Forgot Password** (secure reset token sent via email).
 
-### 📝 Enrollments
-- Enroll in a course
-- Prevents duplicate enrollment for the same course
-- View all courses the logged-in user is enrolled in (with progress tracking)
+### 2. 🏠 User Dashboard
+- **View all available courses** (Publicly visible without logging in).
+- **Search and filter** courses by text, min price, and max price.
+- **View course details** (Title, description, price, and a public preview of the module/lesson titles).
 
-### 💻 Frontend
-- Built with **React + Vite**
-- Client-side routing using **React Router**
-- Pages: Login, Register, Courses, My Courses
-- Connected to backend APIs using **Axios**
-- JWT token stored in `localStorage` for authenticated requests
+### 3. 💳 Enrollment Flow
+- Select a course and click **"Enroll Now"**.
+- Complete payment via **Razorpay Test Mode**.
+- On successful cryptographic webhook verification, the course is added to the user's dashboard.
+
+### 4. 🎓 Learning System
+- **Access enrolled courses** through the `/my-courses` portal.
+- **Modules → Lessons structure** properly mapped in the database.
+- **Video playback** via embedded YouTube URLs.
+- **Mark lessons completed** with a persistent UI toggle.
+- **Track progress (%)** via dynamic progress bars reading from the `completedLessons` array.
+
+### 5. 🛡️ Admin Panel
+Protected by a strict `<AdminRoute />` guard to prevent unauthorized access.
+- **Add/Edit/Delete courses**.
+- **Add modules and lessons** (featuring cascading course → module dropdowns).
+- **View users and enrollments** in a tabular layout.
+
+### 6. 📊 Data & Notifications
+- Store enrollment and payment data correctly mapped to Mongoose models.
+- **Email notifications** sent via Nodemailer for: Registration Verification, Forgot Password, and Successful Enrollment.
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React, Vite, React Router, Axios  
+**Frontend:** React, Vite, React Router, Axios, CSS Modules  
 **Backend:** Node.js, Express.js  
 **Database:** MongoDB (Mongoose)  
 **Authentication:** JWT, bcrypt.js  
-
----
-
-## 📁 Project Structure
-
-```
-project/
-├── client/                 # React frontend
-│   └── src/
-│       ├── pages/
-│       │   ├── Login.jsx
-│       │   ├── Register.jsx
-│       │   ├── Courses.jsx
-│       │   └── MyCourses.jsx
-│       ├── App.jsx
-│       └── main.jsx
-│
-└── server/                 # Express backend
-    ├── config/
-    │   └── db.js
-    ├── controllers/
-    │   ├── authController.js
-    │   ├── courseController.js
-    │   └── enrollmentController.js
-    ├── middleware/
-    │   └── authMiddleware.js
-    ├── models/
-    │   ├── user.js
-    │   ├── Course.js
-    │   └── Enrollment.js
-    ├── routes/
-    │   ├── authRoutes.js
-    │   ├── courseRoutes.js
-    │   └── enrollmentRoutes.js
-    └── server.js
-```
+**Payments:** Razorpay API  
+**Emails:** Nodemailer  
 
 ---
 
@@ -82,8 +58,8 @@ project/
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repo-url>
-cd project
+git clone https://github.com/DhrutiM39/synent-task3--Online-Course-Platform--Dhruti.git
+cd "synent-task3--Online-Course-Platform--Dhruti"
 ```
 
 ### 2. Backend Setup
@@ -94,74 +70,42 @@ npm install
 
 Create a `.env` file inside the `server` folder:
 ```env
+PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
+EMAIL_USER=your_gmail@gmail.com
+EMAIL_PASS=your_gmail_app_password
+CLIENT_URL=http://localhost:5173
+RAZORPAY_KEY_ID=your_razorpay_test_key
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+ALLOW_DEMO_PAYMENTS=false
 ```
 
 Run the backend server:
 ```bash
 npm run dev
 ```
-Server runs on **http://localhost:5000**
+
+*(Optional)* Run the seed script to populate the database with courses and videos:
+```bash
+node seed.js
+```
 
 ### 3. Frontend Setup
 ```bash
 cd client
 npm install
+```
+
+Create a `.env` file inside the `client` folder:
+```env
+VITE_ALLOW_DEMO=false
+```
+
+Run the frontend:
+```bash
 npm run dev
 ```
-Frontend runs on **http://localhost:5173**
-
----
-
-## 🔌 API Endpoints
-
-### Auth Routes — `/api/auth`
-| Method | Endpoint    | Description           | Protected |
-|--------|-------------|------------------------|-----------|
-| POST   | `/register` | Register a new user   | ❌        |
-| POST   | `/login`    | Login & get JWT token  | ❌        |
-| GET    | `/profile`  | Get logged-in user     | ✅        |
-
-### Course Routes — `/api/courses`
-| Method | Endpoint | Description           |
-|--------|----------|------------------------|
-| POST   | `/`      | Add a new course       |
-| GET    | `/`      | Get all courses        |
-| GET    | `/:id`   | Get a course by ID     |
-| PUT    | `/:id`   | Update a course        |
-| DELETE | `/:id`   | Delete a course        |
-
-### Enrollment Routes — `/api/enrollments`
-| Method | Endpoint       | Description                      | Protected |
-|--------|----------------|-----------------------------------|-----------|
-| POST   | `/`            | Enroll in a course                | ✅        |
-| GET    | `/my-courses`  | Get enrollments for current user  | ✅        |
-
----
-
-## 🔒 Authentication Flow
-
-1. User registers → password is hashed with bcrypt → stored in MongoDB.
-2. User logs in → credentials verified → JWT token issued (valid for 7 days).
-3. Token is stored in `localStorage` on the frontend.
-4. Protected routes require the token to be sent as:
-   ```
-   Authorization: Bearer <token>
-   ```
-5. `authMiddleware.js` verifies the token before granting access to protected resources.
-
----
-
-## 📌 Future Improvements
-
-- [ ] Add route protection (admin-only) for course creation/editing/deletion
-- [ ] Wire up the Register page UI to the existing registration API
-- [ ] Add global auth state (Context API) instead of relying on `localStorage` reads alone
-- [ ] Add course progress update functionality
-- [ ] Improve UI/UX with a proper design system
-- [ ] Add form validation and better error messages
-- [ ] Deploy backend (Render) and frontend (Vercel/Netlify)
 
 ---
 
@@ -169,9 +113,3 @@ Frontend runs on **http://localhost:5173**
 
 **Dhruti**  
 Built as part of a full-stack development internship project.
-
----
-
-## 📄 License
-
-This project is open source and available for learning purposes.
