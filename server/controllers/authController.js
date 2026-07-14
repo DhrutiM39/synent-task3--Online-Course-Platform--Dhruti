@@ -24,7 +24,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      verified: false,
+      verified: true, // Automatically verified for development
       verificationToken,
       verificationExpire,
     });
@@ -66,9 +66,9 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    if (!user.verified) {
-      return res.status(403).json({ message: "Please verify your email address before logging in." });
-    }
+    // if (!user.verified) {
+    //   return res.status(403).json({ message: "Please verify your email address before logging in." });
+    // }
 
 
     const token = jwt.sign(

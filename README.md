@@ -109,6 +109,37 @@ npm run dev
 
 ---
 
+## 📸 Screenshots
+
+Here is the visual journey of the full-stack Online Course Platform:
+
+### 🔐 User Registration & Authentication
+| Register Page |
+| --- |
+| ![Register](screemshot/register.png) |
+
+### 🏠 Student Portal
+| Course Catalog (Public) | Course Page Details | My Courses (Enrolled) |
+| --- | --- | --- |
+| ![Course Page](screemshot/course%20page) | ![Course Modules](screemshot/course%20module%20.png) | ![My Courses](screemshot/my%20courses.png) |
+
+### 💳 Payments Integration
+| Razorpay Checkout Overlay |
+| --- |
+| ![Razorpay](screemshot/razorpay.png) |
+
+### 🛡️ Admin Dashboard (Protected Management)
+| Dashboard Overview | Users & Enrollments | Courses Management |
+| --- | --- | --- |
+| ![Admin Dashboard](screemshot/admin%20dashboard) | ![Users](screemshot/admin_users.png) | ![Manage Courses](screemshot/admin_manage_courses.png) |
+
+### ➕ Course Content Creation
+| Add Course Form | Add Module Form | Add Lesson Form |
+| --- | --- | --- |
+| ![Add Course](screemshot/admin_add_course.png) | ![Add Module](screemshot/admin_add_module.png) | ![Add Lesson](screemshot/admin_add_lesson.png) |
+
+---
+
 ## 👩‍💻 Author
 
 **Dhruti**  
